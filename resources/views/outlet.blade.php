@@ -1,116 +1,126 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Outlet Speed Solution - Temukan Bengkel Motor Terdekat</title>
-    <link rel="stylesheet" href="{{ asset('css/outlet.css') }}">
-</head>
-<body>
-    @include('partials.header')
+@extends('layouts.app')
 
-    <!-- Outlet Hero Section -->
-    <section class="outlet-hero">
-        <img src="{{ asset('images/bg_bengkel.png') }}" alt="Outlet Speed Solution">
-        <div class="outlet-hero-content">
-            <div class="outlet-title">
-                <h1>Outlet</h1>
-                <h2>Temukan Kami di Lokasi Terdekat Anda</h2>
+@section('title', 'Outlet Speed Solution - Temukan Bengkel Motor Terdekat')
+
+@section('content')
+
+{{-- Hero Section --}}
+<section class="outlet-hero">
+    <img src="{{ asset('images/' . $heroData['background_image']) }}" alt="Outlet Speed Solution">
+    <div class="outlet-hero-content">
+        <div class="outlet-title">
+            <h1>{{ $heroData['title'] }}</h1>
+            <h2>{{ $heroData['subtitle'] }}</h2>
+            @if(isset($heroData['description']))
+                <p>{{ $heroData['description'] }}</p>
+            @endif
+        </div>
+    </div>
+</section>
+
+{{-- Main Content --}}
+<section class="outlets">
+    <div class="container">
+        
+        {{-- Filter Region --}}
+        <div class="outlet-filter">
+            <h3>Filter berdasarkan Region:</h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="showAllRegions()">
+                    Semua Region ({{ collect($outletsByRegion)->flatten(1)->count() }})
+                </button>
+                @foreach($outletsByRegion as $region => $outlets)
+                    <button class="filter-btn" onclick="showRegion('{{ $region }}')">
+                        {{ $region }} ({{ count($outlets) }})
+                    </button>
+                @endforeach
             </div>
         </div>
-    </section>
 
-    <!-- Sidoarjo Outlets -->
-    <section class="outlets">
-        <div class="container">
-            <h2 class="region-title">SIDOARJO</h2>
-            
-            <div class="outlet-cards">
-                <div class="outlet-card">
-                    <h3>Speed Solution Jumputrejo</h3>
-                    <div class="outlet-info">
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/phone.png') }}" alt="Phone" class="info-icon">
-                            </div>
-                            <p>08983841072</p>
-                        </div>
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/navigation.png') }}" alt="Location" class="info-icon">
-                            </div>
-                            <p>Jl Beciro, RT : 11 RW : 03 Jumputrejo, Sukodono, Sidoarjo</p>
-                        </div>
-                    </div>
-                    <a href="https://www.google.com/maps/@-7.4145265,112.7007763,3a,75y,12.96h,83.28t/data=!3m7!1e1!3m5!1svX5rG2cXu8SRMDWwhSx0BQ!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D6.720865784002115%26panoid%3DvX5rG2cXu8SRMDWwhSx0BQ%26yaw%3D12.956459535577075!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MDUxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-direction">Arahkan</a>
-                </div>
+        {{-- Outlet Cards per Region --}}
+        @foreach($outletsByRegion as $region => $outlets)
+            <div class="region-section" data-region="{{ $region }}">
+                <h2 class="region-title">{{ $region }}</h2>
                 
-                <div class="outlet-card">
-                    <h3>Speed Solution Candi</h3>
-                    <div class="outlet-info">
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/phone.png') }}" alt="Phone" class="info-icon">
+                <div class="outlet-cards">
+                    @foreach($outlets as $outlet)
+                        <div class="outlet-card">
+                            
+                            {{-- Nama Outlet --}}
+                            <h3>{{ $outlet['name'] }}</h3>
+                            
+                            {{-- Info Outlet --}}
+                            <div class="outlet-info">
+                                {{-- Phone --}}
+                                <div class="info-item">
+                                    <div class="icon-wrapper">
+                                        <img src="{{ asset('images/' . $icons['phone']) }}" alt="Phone" class="info-icon">
+                                    </div>
+                                    <p>{{ $outlet['phone'] }}</p>
+                                </div>
+                                
+                                {{-- Address --}}
+                                <div class="info-item">
+                                    <div class="icon-wrapper">
+                                        <img src="{{ asset('images/' . $icons['location']) }}" alt="Location" class="info-icon">
+                                    </div>
+                                    <p>{{ $outlet['address'] }}</p>
+                                </div>
                             </div>
-                            <p>08982134231</p>
+                            
+                            {{-- Button Arahkan --}}
+                            <a href="{{ $outlet['maps_url'] }}" target="_blank" class="btn detail-btn">
+                                📍 Arahkan ke Maps
+                            </a>
+                            
                         </div>
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/navigation.png') }}" alt="Location" class="info-icon">
-                            </div>
-                            <p>Gelam, Candi, Sidoarjo Regency</p>
-                        </div>
-                    </div>
-                    <a href="https://www.google.com/maps/@-7.4835947,112.7128842,3a,75y,175.33h,98.48t/data=!3m7!1e1!3m5!1sY_e01CkP2rAtd3UG3EXGOw!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D-8.47796799245971%26panoid%3DY_e01CkP2rAtd3UG3EXGOw%26yaw%3D175.3346488721017!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MDUxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-direction">Arahkan</a>
-                </div>
+                    @endforeach
+                </div>  
             </div>
-
-            <!-- Surabaya Outlets -->
-            <h2 class="region-title">SURABAYA</h2>
-            
-            <div class="outlet-cards">
-                <div class="outlet-card">
-                    <h3>Speed Solution G. Anyar</h3>
-                    <div class="outlet-info">
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/phone.png') }}" alt="Phone" class="info-icon">
-                            </div>
-                            <p>08982918347</p>
-                        </div>
-                        <div class="info-item">
-                            <div class="icon-wrapper">
-                                <img src="{{ asset('images/navigation.png') }}" alt="Location" class="info-icon">
-                            </div>
-                            <p>Jl. Dr. Ir. H. Soekarno No.682, Gn. Anyar, Kec. Gn. Anyar, Surabaya, Jawa Timur 60294</p>
-                        </div>
-                    </div>
-                    <a href="https://www.google.com/maps/@-7.3444275,112.7864897,3a,32.6y,6.06h,78.58t/data=!3m7!1e1!3m5!1sxFwUKQhynVOCAcj8Y2sHTw!2e0!6shttps:%2F%2Fstreetviewpixels-pa.googleapis.com%2Fv1%2Fthumbnail%3Fcb_client%3Dmaps_sv.tactile%26w%3D900%26h%3D600%26pitch%3D11.42436708018191%26panoid%3DxFwUKQhynVOCAcj8Y2sHTw%26yaw%3D6.057781717777167!7i16384!8i8192?entry=ttu&g_ep=EgoyMDI1MDUxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="btn btn-direction">Arahkan</a>
-                </div>
-            </div>
+        @endforeach
+        
+        {{-- Info Total --}}
+        <div class="outlet-summary">
+            <p>
+                <strong>Total: {{ collect($outletsByRegion)->flatten(1)->count() }} outlet</strong> 
+                tersebar di {{ count($outletsByRegion) }} region
+            </p>
         </div>
-    </section>
+        
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="{{ asset('images/footer_logo.png') }}" alt="Speed Solution Logo">
-                    <p>Didirikan pada tahun 2025, Speed Solution memiliki visi misi menjadi platform bengkel digital terpercaya di Indonesia yang memberikan kemudahan, kecepatan, dan kualitas dalam memenuhi kebutuhan perawatan dan modifikasi sepeda motor. Tersedia ganti oli dan tune up rem, aki, detailing, dan servis lainnya dengan praktis!</p>
-                </div>
-                <div class="footer-contact">
-                    <h3>Speed Solution Center</h3>
-                    <p>Jl. Beciro No.238, Sukodono, Jumputrejo, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258</p>
-                    <br>
-                    <h3>Informasi Kontak Layanan Pengaduan Konsumen</h3>
-                    <p>WhatsApp Customer Service Speed Solution: 08983841072</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p><span class="tag">#SingleFighter</span></p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+{{-- JavaScript untuk Filter --}}
+<script>
+function showAllRegions() {
+    // Tampilkan semua region
+    document.querySelectorAll('.region-section').forEach(function(section) {
+        section.style.display = 'block';
+    });
+    
+    // Update button active
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    document.querySelector('.filter-btn').classList.add('active');
+}
+
+function showRegion(region) {
+    // Sembunyikan semua region
+    document.querySelectorAll('.region-section').forEach(function(section) {
+        section.style.display = 'none';
+    });
+    
+    // Tampilkan region yang dipilih
+    document.querySelector('[data-region="' + region + '"]').style.display = 'block';
+    
+    // Update button active
+    document.querySelectorAll('.filter-btn').forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+}
+</script>
+
+@include('partials.footer')
+@endsection

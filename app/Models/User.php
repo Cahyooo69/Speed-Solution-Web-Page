@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'role',
     ];
 
     /**
@@ -42,4 +43,51 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the user's formatted phone number
+     */
+    public function getFormattedPhoneAttribute(): string
+    {
+        if (empty($this->phone)) {
+            return '';
+        }
+        
+        // Format nomor telepon Indonesia
+        $phone = preg_replace('/[^0-9]/', '', $this->phone);
+        
+        if (substr($phone, 0, 1) === '0') {
+            return '+62' . substr($phone, 1);
+        } elseif (substr($phone, 0, 2) === '62') {
+            return '+' . $phone;
+        }
+        
+        return $this->phone;
+    }
+
+    /**
+     * Get user's initials for avatar
+     */
+    public function getInitialsAttribute(): string
+    {
+        $words = explode(' ', $this->name);
+        $initials = '';
+        
+        foreach ($words as $word) {
+            if (!empty($word)) {
+                $initials .= strtoupper(substr($word, 0, 1));
+            }
+        }
+        
+        return substr($initials, 0, 2);
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        // Admin adalah user dengan email admin@gmail.com
+        return $this->email === 'admin@gmail.com';
+    }
 }

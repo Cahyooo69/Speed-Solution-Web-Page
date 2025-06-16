@@ -14,6 +14,9 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle">{{ Auth::user()->name }}</a>
                     <div class="dropdown-menu">
+                        @if(Auth::user()->email === 'admin@gmail.com')
+                            <a href="{{ route('admin.chat') }}" class="dropdown-link">Admin Dashboard</a>
+                        @endif
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <button type="submit" class="dropdown-link">Logout</button>
@@ -26,47 +29,3 @@
         </ul>
     </div>
 </nav>
-
-<style>
-/* CSS untuk dropdown menu */
-.dropdown {
-    position: relative;
-}
-
-.dropdown-toggle {
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #fff;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border-radius: 4px;
-    padding: 8px 0;
-}
-
-.dropdown:hover .dropdown-menu {
-    display: block;
-}
-
-.dropdown-menu a, .dropdown-menu .dropdown-link {
-    color: #333;
-    padding: 8px 16px;
-    text-decoration: none;
-    display: block;
-    text-align: left;
-    background: none;
-    border: none;
-    width: 100%;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.dropdown-menu a:hover, .dropdown-menu .dropdown-link:hover {
-    background-color: #f1f1f1;
-}
-</style>

@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/livewire-starter-kit",
+    "name": "speedsolution/single-fighter",
     "type": "project",
-    "description": "The official Laravel starter kit for Livewire.",
+    "description": "Speed Solution - Aplikasi Bengkel Motor dengan Laravel & Vue.js",
     "keywords": [
         "laravel",
         "framework"
@@ -13,8 +13,6 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.1",
         "laravel/tinker": "^2.10.1",
-        "livewire/flux": "^2.1.1",
-        "livewire/volt": "^1.7.0",
         "spatie/browsershot": "^5.0",
         "symfony/dom-crawler": "^7.2"
     },
@@ -24,9 +22,7 @@
         "laravel/pint": "^1.18",
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.2"
+        "nunomaduro/collision": "^8.6"
     },
     "autoload": {
         "psr-4": {
@@ -75,7 +71,6 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true,
             "php-http/discovery": true
         }
     },

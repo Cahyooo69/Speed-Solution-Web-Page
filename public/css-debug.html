@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Debug Test</title>
+    <link rel="stylesheet" href="build/assets/app-DCxV8I3B.css">
+</head>
+<body style="margin: 0; padding: 20px; font-family: Arial, sans-serif; background-color: #f0f0f0;">
+    <h1>CSS Debug Test</h1>
+    <p>Testing if CSS loads correctly...</p>
+    
+    <!-- Test floating button with exact same classes -->
+    <div class="floating-btn" style="position: fixed; bottom: 30px; right: 30px;">
+        <img src="images/mechanic_mascot.png" alt="Test" style="width: 70px; height: 70px;">
+    </div>
+    
+    <!-- Test with CSS classes from app.css -->
+    <div class="btn">Test Button</div>
+    <div class="hero">
+        <h1>Test Hero</h1>
+    </div>
+    
+    <script>
+        // Debug CSS loading
+        console.log('CSS Debug Test');
+        
+        // Check if styles are applied
+        const floatingBtn = document.querySelector('.floating-btn');
+        if (floatingBtn) {
+            const styles = window.getComputedStyle(floatingBtn);
+            console.log('Floating button styles:', {
+                position: styles.position,
+                bottom: styles.bottom,
+                right: styles.right,
+                width: styles.width,
+                height: styles.height,
+                zIndex: styles.zIndex,
+                display: styles.display
+            });
+        }
+        
+        // Check if CSS file loaded
+        const cssLinks = document.querySelectorAll('link[rel="stylesheet"]');
+        console.log('CSS files loaded:', cssLinks.length);
+        cssLinks.forEach((link, index) => {
+            console.log(`CSS ${index + 1}:`, link.href);
+        });
+    </script>
+</body>
+</html>

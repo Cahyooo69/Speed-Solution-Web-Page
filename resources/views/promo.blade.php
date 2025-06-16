@@ -1,82 +1,89 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo Speed Solution - Dapatkan Promo Terbaik</title>
-    <link rel="stylesheet" href="{{ asset('css/promo.css') }}">
-</head>
-<body>
-    @include('partials.header')
+@extends('layouts.app')
 
-    <!-- Promo Hero Section -->
-    <section class="promo-hero">
-        <img src="{{ asset('images/bg_bengkel.png') }}" alt="Promo Speed Solution">
-        <div class="promo-hero-content">
-            <div class="promo-title">
-                <h1>Promo</h1>
-                <h2>Dapatkan dan Nikmati Promo Terbaik dari Kami</h2>
-            </div>
+@section('title', 'Promo Speed Solution - Dapatkan Promo Terbaik')
+
+@section('content')
+
+{{-- Hero Section --}}
+<section class="promo-hero">
+    <img src="{{ asset('images/' . $heroData['background_image']) }}" alt="{{ $heroData['title'] }} Background">
+    <div class="promo-hero-content">
+        <div class="promo-title">
+            <h1>{{ $heroData['title'] }}</h1>
+            <h2>{{ $heroData['subtitle'] }}</h2>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Promo Content -->
-    <section class="promo-content">
-        <div class="container">
+{{-- Main Content --}}
+<div class="promo-content">
+    <div class="container">
+        @if($currentPromo['has_promo'])
+            {{-- Tampilan Promo Normal --}}
             <div class="current-promo">
-                <h2 class="promo-heading">PROMO MEI 2025</h2>
-                <p class="promo-period">Periode Promo : 01 Mei - 31 Mei 2025</p>
-                
-                <div class="promo-description">
-                    <p>Yuk langsung ke Speed Solution terdekat buat dapetin promonya ✨</p>
-                    
-                    <div class="promo-info">
-                        <p>📍 Berlaku di semua outlet Speed Solution</p>
-                        <p>*) Syarat & Ketentuan Berlaku</p>
-                    </div>
-                    
-                    <div class="contact-info">
-                        <p>Untuk info lebih lanjut bisa hubungi Official :</p>
-                        <p>Whatsapp : 08983841072</p>
-                    </div>
-                    
-                    <div class="social-info">
-                        <p>Ikuti Official akun media sosial Speed Solutiuon untuk mendapatkan info dan promo terupdate :</p>
-                        <p>Instagram : @speedsolution_</p>
-                        <p>Facebook : SpeedSolutionsda</p>
-                        <p>Tiktok : speedsolution_</p>
-                        <p>Website : www.speedsolution.co.id</p>
-                    </div>
+                {{-- Header Promo --}}
+                <div class="promo-heading">
+                    <h2>{{ $currentPromo['title'] }}</h2>
+                    <p class="promo-period">Periode Promo : {{ $currentPromo['period'] }}</p>
                 </div>
-                
+              
+                {{-- Deskripsi --}}
+                <div class="promo-description">
+                    <p>{{ $currentPromo['description'] }}</p>
+                </div>
+
+                {{-- Info Lokasi --}}
+                <div class="promo-info">
+                    <p>{{ $currentPromo['location_info'] }}</p>
+                    <p>{{ $currentPromo['terms_note'] }}</p>
+                </div>
+
+                {{-- Kontak --}}
+                <div class="contact-info">
+                    <p>Untuk info lebih lanjut bisa hubungi Official :</p>
+                    <p>Whatsapp : {{ $currentPromo['contact']['whatsapp'] }}</p>
+                </div>
+
+                {{-- Social Media --}}
+                <div class="social-info">
+                    <p>Ikut Official akun media sosial Speed Solution untuk mendapatkan info dan promo terupdate :</p>
+                    <p>Instagram : {{ $currentPromo['social_media']['instagram'] }}</p>
+                    <p>Facebook : {{ $currentPromo['social_media']['facebook'] }}</p>
+                    <p>Tiktok : {{ $currentPromo['social_media']['tiktok'] }}</p>
+                    <p>Website : {{ $currentPromo['social_media']['website'] }}</p>
+                </div>
+
+                {{-- Syarat dan Ketentuan --}}
                 <div class="terms-section">
                     <h3 class="terms-heading">Syarat dan Ketentuan</h3>
-                    <p>S&K: Pembelian langsung ke outlet</p>
+                    <p>{{ $currentPromo['terms'] }}</p>
                 </div>
             </div>
-        </div>
-    </section>
+        @else
+            {{-- Tampilan Tidak Ada Promo --}}
+            <div class="no-promo" style="text-align: center; padding: 50px 20px;">
+                <img src="{{ asset('images/' . $currentPromo['image']) }}" alt="No Promo Found" 
+                     style="max-width: 300px; width: 100%; height: auto; margin-bottom: 20px;">
+                <h3 style="color: #666; margin-bottom: 30px;">{{ $currentPromo['message'] }}</h3>
+                
+                {{-- Kontak untuk info --}}
+                <div class="contact-info" style="margin-top: 40px;">
+                    <p>{{ $currentPromo['contact_message'] }}</p>
+                    <p><strong>Whatsapp : {{ $currentPromo['contact']['whatsapp'] }}</strong></p>
+                </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <img src="{{ asset('images/footer_logo.png') }}" alt="Speed Solution Logo">
-                    <p>Didirikan pada tahun 2025, Speed Solution memiliki visi misi menjadi platform bengkel digital terpercaya di Indonesia yang memberikan kemudahan, kecepatan, dan kualitas dalam memenuhi kebutuhan perawatan dan modifikasi sepeda motor. Tersedia ganti oli dan tune up rem, aki, detailing, dan servis lainnya dengan praktis!</p>
-                </div>
-                <div class="footer-contact">
-                    <h3>Speed Solution Center</h3>
-                    <p>Jl. Beciro No.238, Sukodono, Jumputrejo, Kec. Sukodono, Kabupaten Sidoarjo, Jawa Timur 61258</p>
-                    <br>
-                    <h3>Informasi Kontak Layanan Pengaduan Konsumen</h3>
-                    <p>WhatsApp Customer Service Speed Solution: 08983841072</p>
+                {{-- Social Media --}}
+                <div class="social-info" style="margin-top: 30px;">
+                    <p>{{ $currentPromo['social_message'] }}</p>
+                    <p>Instagram : {{ $currentPromo['social_media']['instagram'] }}</p>
+                    <p>Facebook : {{ $currentPromo['social_media']['facebook'] }}</p>
+                    <p>Tiktok : {{ $currentPromo['social_media']['tiktok'] }}</p>
+                    <p>Website : {{ $currentPromo['social_media']['website'] }}</p>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p><span class="tag">#SingleFighter</span></p>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+        @endif
+    </div>
+</div>
+
+@include('partials.footer')
+@endsection

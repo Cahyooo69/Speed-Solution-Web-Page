@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Test</title>
+</head>
+<body>
+    <h1>Chat Button Test</h1>
+    
+    <button id="test-chat" style="position: fixed; bottom: 30px; right: 30px; width: 80px; height: 80px; background: red; color: white; border: none; border-radius: 50%; cursor: pointer; z-index: 9999;">
+        CHAT
+    </button>
+    
+    <div id="chat-popup" style="display: none; position: fixed; bottom: 120px; right: 30px; width: 300px; height: 400px; background: white; border: 2px solid #ccc; border-radius: 10px; z-index: 9999;">
+        <div style="padding: 10px; background: #f0f0f0; border-radius: 10px 10px 0 0;">
+            <h3>Chat Test</h3>
+            <button id="close-chat" style="float: right; background: none; border: none; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <div style="padding: 10px;">
+            <p>Chat is working!</p>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('test-chat').addEventListener('click', function() {
+            console.log('Chat button clicked!');
+            document.getElementById('chat-popup').style.display = 'block';
+        });
+        
+        document.getElementById('close-chat').addEventListener('click', function() {
+            document.getElementById('chat-popup').style.display = 'none';
+        });
+        
+        console.log('Test script loaded');
+    </script>
+</body>
+</html>
