@@ -1,4 +1,4 @@
-# 📚 Single Fighter - Admin Dashboard
+# 📚 Speed Solution - Admin Dashboard
 
 ## 🔧 Setup Admin
 
